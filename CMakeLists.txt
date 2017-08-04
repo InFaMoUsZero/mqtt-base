@@ -27,6 +27,6 @@ file(GLOB sources "src/*.cpp")
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(MQTT ${PROJECT_SOURCE_DIR}/src/Main.cpp)
+add_executable(MQTT ${PROJECT_SOURCE_DIR}/src/main.cpp)
 target_link_libraries (MQTT ${PROJECT_SOURCE_DIR}/ext/lib/paho-mqtt-cpp/libpaho-mqttpp3.a)
 target_link_libraries (MQTT ${PROJECT_SOURCE_DIR}/ext/lib/paho-mqtt-c/libpaho-mqtt3a.a)
