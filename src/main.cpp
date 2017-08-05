@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const long Timeout = 10000L;
+long Timeout = 10000L;
 
 int main(int argc, char* argv[])
 {
