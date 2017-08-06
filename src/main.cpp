@@ -1,31 +1,30 @@
 #include <iostream>
-#include <cstring>
+#include <vector>
 
 #include "mqtt/async_client.h"
 
+#include "DefaultCallbacks.hpp"
+
 using namespace std;
 
-long Timeout = 10000L;
+const long Timeout = 10000L;
 
 int main(int argc, char* argv[])
 {
     mqtt::async_client client(argv[1], "test_00");
 
-    mqtt::callback cb;
-    client.set_callback(cb);
+    DefaultCallbacks dcb;
+    client.set_callback(dcb);
 
-    mqtt::token_ptr connectOk = client.connect();
-    cout << "Connecting.." << endl;
+    mqtt::connect_options connOpts;
+    connOpts.set_keep_alive_interval(20);
+    connOpts.set_clean_session(true);
 
-    connectOk->wait_for(Timeout);
+    client.connect(connOpts)->wait_for(Timeout);
 
-    cout << "Connection Established!" << endl;
+    std::string payload(R"({"Message": "Hello, World!"})");
 
-    // Now try with itemized publish.
-    const char *payload = "";
-    mqtt::token_ptr publishOk = client.publish("test/topic", payload, strlen(payload) + 1, 1, false);
-    publishOk->wait_for(Timeout);
-    cout << "Payload sent!" << endl;
+   client.publish("test/topic", payload.c_str(), payload.size(), 1, false)->wait_for(Timeout);
 
     return 0;
 }
