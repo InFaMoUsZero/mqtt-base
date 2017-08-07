@@ -3,10 +3,9 @@
 
 #include <mqtt/iaction_listener.h>
 
-class PublisherCallbacks : public mqtt::iaction_listener
+class PublisherCallbacks : public virtual mqtt::iaction_listener
 {
 public:
-    virtual void onPublishSuccess() = 0;
     virtual void onPublishFailure() = 0;
 
 private:

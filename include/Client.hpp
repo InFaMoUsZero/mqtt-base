@@ -10,24 +10,34 @@ namespace mqtt
     class delivery_token;
 }
 
+enum QoS
+{
+    AtMostOnce = 0,
+    AtLeastOnce = 1,
+    ExactlyOnce = 2
+};
+
 class Client : public virtual mqtt::iaction_listener
 {
 public:
-    Client(const std::string& address, int port, const std::string& clientId, mqtt::connect_options& options, mqtt::ClientCallbacks* callbacks = nullptr);
+    Client(const std::string& address, int port, const std::string& clientId,
+           const mqtt::connect_options& options, void* callbacks = nullptr);
 
     mqtt::token_ptr connect();
     mqtt::token_ptr disconnect();
-    mqtt::delivery_token* publish(const std::string& topic, const std::string& payload, int QoS, bool retained = false);
+
+    mqtt::delivery_token* publish(const std::string& topic, const std::string& payload,
+                                  QoS quality, bool retained = false);
 
     // Getters
     const mqtt::connect_options& getOptions();
     const std::string& getServerAddress();
     const std::string& getClientId();
     const int getServerPort();
-    const std::chrono::seconds getReconnectInterval();
+    const std::chrono::seconds& getReconnectInterval();
 
     // Setters
-    void setReconnectInterval(std::chrono::seconds interval);
+    void setReconnectInterval(const std::chrono::seconds& interval);
 
 private:
     void reconnect();
@@ -38,7 +48,7 @@ private:
 
 private:
     std::unique_ptr<mqtt::async_client> m_pAsyncClient;
-    std::unique_ptr<mqtt::ClientCallbacks> m_pCallbacks;
+    std::unique_ptr<mqtt::ClientCallbacks> m_pClientCallbacks;
 
     mqtt::connect_options m_connectionOptions;
     std::string m_serverAddress;

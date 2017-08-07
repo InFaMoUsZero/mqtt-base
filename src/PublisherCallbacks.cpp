@@ -7,5 +7,5 @@ void PublisherCallbacks::on_failure(const mqtt::token &asyncActionToken)
 
 void PublisherCallbacks::on_success(const mqtt::token &asyncActionToken)
 {
-    this->onPublishSuccess();
+
 }

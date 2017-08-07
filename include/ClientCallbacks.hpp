@@ -6,7 +6,7 @@
 
 namespace mqtt
 {
-    class ClientCallbacks : public virtual mqtt::callback
+    class ClientCallbacks : public mqtt::callback
     {
     public:
         ~ClientCallbacks() override;
@@ -14,7 +14,11 @@ namespace mqtt
         virtual void onConnected() = 0;
         virtual void onConnectionLost(const std::string &reason) = 0;
         virtual void onMessageReceived(const std::string &topic, const std::string &payload) = 0;
+
+        // Callback to indicate that a message was delivered to the server.
+        // It is called for a message with a QOS >= 1
         virtual void onMessageSent(const std::string &topic, const std::string &payload) = 0;
+
         virtual void onReconnectSuccess() = 0;
         virtual void onReconnectFailure() = 0;
 

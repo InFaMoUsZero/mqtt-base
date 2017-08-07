@@ -6,7 +6,7 @@
 #include "ClientCallbacks.hpp"
 #include "PublisherCallbacks.hpp"
 
-class DefaultCallbacks : public virtual mqtt::ClientCallbacks, public virtual PublisherCallbacks
+class DefaultCallbacks : public mqtt::ClientCallbacks, public PublisherCallbacks
 {
 public:
     ~DefaultCallbacks() override;
@@ -17,7 +17,6 @@ public:
     void onMessageSent(const std::string &topic, const std::string &payload) override;
     void onReconnectSuccess() override;
     void onReconnectFailure() override;
-    void onPublishSuccess() override;
     void onPublishFailure() override;
 };
 

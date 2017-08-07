@@ -19,7 +19,7 @@ link_directories(${PROJECT_SOURCE_DIR}/ext/lib
 file(GLOB sources "src/*.cpp")
 file(GLOB healders "include/*.hpp")
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 add_executable(${PROJECT_NAME} ${sources} ${healders})
 
