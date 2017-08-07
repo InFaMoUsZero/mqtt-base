@@ -17,11 +17,11 @@ link_directories(${PROJECT_SOURCE_DIR}/ext/lib
                  ${OPENSSL_LIBRARY_PATH})
 
 file(GLOB sources "src/*.cpp")
-file(GLOB healders "include/*.h" "include/*.hpp")
+file(GLOB healders "include/*.hpp")
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(${PROJECT_NAME} ${sources} ${healders} src/Callbacks.cpp include/Callbacks.hpp)
+add_executable(${PROJECT_NAME} ${sources} ${healders})
 
 # Add linked libraries
 if(OPENSSL_LIBRARY_FILE AND OPENSSL_CRYPTO_FILE)

@@ -1,0 +1,11 @@
+#ifndef SUBSCRIBERCALLBACKS_HPP
+#define SUBSCRIBERCALLBACKS_HPP
+
+
+class SubscriberCallbacks
+{
+
+};
+
+
+#endif //SUBSCRIBERCALLBACKS_HPP

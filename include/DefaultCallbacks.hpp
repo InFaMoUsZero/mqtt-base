@@ -3,18 +3,22 @@
 
 #include <iostream>
 
-#include "Callbacks.hpp"
+#include "ClientCallbacks.hpp"
+#include "PublisherCallbacks.hpp"
 
-class DefaultCallbacks : public mqtt::Callbacks
+class DefaultCallbacks : public virtual mqtt::ClientCallbacks, public virtual PublisherCallbacks
 {
 public:
-    DefaultCallbacks();
     ~DefaultCallbacks() override;
 
-    void connected() override;
-    void connectionLost(const std::string& reason) override;
-    void messageReceived(const std::string& topic, const std::string& payload) override;
-    void messageSent(const std::string& topic, const std::string& payload) override;
+    void onConnected() override;
+    void onConnectionLost(const std::string &reason) override;
+    void onMessageReceived(const std::string &topic, const std::string &payload) override;
+    void onMessageSent(const std::string &topic, const std::string &payload) override;
+    void onReconnectSuccess() override;
+    void onReconnectFailure() override;
+    void onPublishSuccess() override;
+    void onPublishFailure() override;
 };
 
 #endif //DEFAULTCALLBACKS_H

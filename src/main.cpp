@@ -2,7 +2,6 @@
 #include <vector>
 
 #include "mqtt/async_client.h"
-
 #include "DefaultCallbacks.hpp"
 
 using namespace std;
@@ -11,20 +10,28 @@ const long Timeout = 10000L;
 
 int main(int argc, char* argv[])
 {
-    mqtt::async_client client(argv[1], "test_00");
+    try
+    {
+        DefaultCallbacks defaultCallbacks;
 
-    DefaultCallbacks dcb;
-    client.set_callback(dcb);
+        mqtt::connect_options connOpts;
+        connOpts.set_keep_alive_interval(20);
+        connOpts.set_clean_session(true);
 
-    mqtt::connect_options connOpts;
-    connOpts.set_keep_alive_interval(20);
-    connOpts.set_clean_session(true);
+        Client client(argv[1], std::stoi(argv[2]), "test_00", connOpts, &defaultCallbacks);
 
-    client.connect(connOpts)->wait_for(Timeout);
+        client.connect()->wait_for(Timeout);
 
-    std::string payload(R"({"Message": "Hello, World!"})");
+        std::string payload(R"({"Message": "Hello, World!"})");
 
-   client.publish("test/topic", payload.c_str(), payload.size(), 1, false)->wait_for(Timeout);
+        client.publish("test/topic", payload, 1)->wait_for(Timeout);
+    }
+    catch (const mqtt::exception&)
+    {
+        std::cerr << "\nERROR: Unable to connect to MQTT server: '"
+                  << argv[1] << "'" << std::endl;
+        return 1;
+    }
 
     return 0;
 }
